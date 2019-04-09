@@ -15,7 +15,7 @@ jobs:
       displayName: 'Copy Files to: $(build.artifactstagingdirectory)'
       inputs:
         SourceFolder: '$(system.defaultworkingdirectory)'
-        Contents: '**/*.jar'
+        Contents: '**/*.war'
         TargetFolder: '$(build.artifactstagingdirectory)'
 
     - task: PublishBuildArtifacts@1
@@ -36,4 +36,4 @@ jobs:
         azureSubscription: 'JavaSpring - Service Endpoint'
         appType: webAppLinux
         appName: LinuxTomcatApp
-        package: '$(build.artifactstagingdirectory)/**/*.jar'
+        package: '$(build.artifactstagingdirectory)/**/*.war'
