@@ -38,7 +38,7 @@ jobs:
           - task: AzureWebApp@1
             displayName: 'Azure Web App Deploy: LinuxTomcatApp'
             inputs:
-              azureSubscription: 'JavaSpring - Service Endpoint'
+              azureSubscription: 'RMPM'
               appType: webAppLinux
-              appName: LinuxTomcatApp
+              appName: LinuxTomcat9
               package: '$(build.artifactstagingdirectory)/**/*.war'
