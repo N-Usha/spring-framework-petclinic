@@ -9,10 +9,10 @@ trigger:
 variables:
 
   # Azure Resource Manager connection created during pipeline creation
-  azureSubscription: 'Java Demos 2'
+  azureSubscription: 'RMPM'
   
   # Web app name
-  webAppName: 'SpringPetClinicTomcat'
+  webAppName: 'linuxtomcat9'
 
   # Agent VM image name
   vmImageName: 'ubuntu-latest'
