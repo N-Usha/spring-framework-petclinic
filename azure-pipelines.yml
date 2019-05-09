@@ -12,7 +12,7 @@ variables:
   azureSubscription: 'Java Demos 2'
   
   # Web app name
-  webAppName: 'SpringPetClinic-Tomcat'
+  webAppName: 'SpringPetClinicTomcat'
 
   # Agent VM image name
   vmImageName: 'ubuntu-latest'
