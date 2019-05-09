@@ -32,8 +32,7 @@ stages:
       inputs:
         mavenPomFile: 'pom.xml'
 
-    - upload: 
-      - **/target/*.war
+    - upload: **/target/*.war
 
 - stage: Deploy
   displayName: Deploy stage
