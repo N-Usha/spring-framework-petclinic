@@ -32,17 +32,8 @@ stages:
       inputs:
         mavenPomFile: 'pom.xml'
 
-    - task: CopyFiles@2
-      displayName: 'Copy Files to artifact staging directory'
-      inputs:
-        SourceFolder: '$(System.DefaultWorkingDirectory)'
-        Contents: '**/target/*.?(war|jar)'
-        TargetFolder: $(System.ArtifactsDirectory)
-
-    - task: PublishPipelineArtifact@0
+    - upload: $(System.DefaultWorkingDirectory)/target/*.war
       displayName: 'Publish pipeline artifacts'
-      inputs:
-        targetPath: $(System.ArtifactsDirectory)
 
 - stage: Deploy
   displayName: Deploy stage
@@ -64,4 +55,4 @@ stages:
               azureSubscription: $(azureSubscription)
               appType: webAppLinux
               appName: $(webAppName)
-              package: '$(System.ArtifactsDirectory)/drop/**/target/*.war'
+              package: '$(Pipeline.Workspace)/drop/**/target/*.war'
