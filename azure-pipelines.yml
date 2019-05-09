@@ -33,7 +33,6 @@ stages:
         mavenPomFile: 'pom.xml'
 
     - upload: $(System.DefaultWorkingDirectory)/target/*.war
-      displayName: 'Publish pipeline artifacts'
 
 - stage: Deploy
   displayName: Deploy stage
