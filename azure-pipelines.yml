@@ -35,7 +35,7 @@ stages:
     - task: PublishPipelineArtifact@0
       displayName: 'Publish pipeline artifacts'
       inputs:
-        targetPath: '$(System.DefaultWorkingDirectory)/target/*.war'
+        targetPath: '$(System.DefaultWorkingDirectory)/**/*.war'
 
 - stage: Deploy
   displayName: Deploy stage
