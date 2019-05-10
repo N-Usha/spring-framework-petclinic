@@ -9,10 +9,10 @@ trigger:
 variables:
 
   # Azure Resource Manager connection created during pipeline creation
-  azureSubscription: 'RMPM'
+  azureSubscription: 'Java Demos 2'
   
   # Web app name
-  webAppName: 'linuxtomcat9'
+  webAppName: 'SpringPetClinicTomcat'
 
   # Agent VM image name
   vmImageName: 'ubuntu-latest'
@@ -64,4 +64,4 @@ stages:
               azureSubscription: $(azureSubscription)
               appType: webAppLinux
               appName: $(webAppName)
-              package: $(Pipeline.Workspace)/drop/target/petclinic.war
+              package: $(Pipeline.Workspace)/drop/target/*.war
