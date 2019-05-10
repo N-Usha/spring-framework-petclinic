@@ -32,7 +32,7 @@ stages:
       inputs:
         mavenPomFile: 'pom.xml'
     
-    - upload: $(System.DefaultWorkingDirectory)/target/*.war
+    - upload: $(System.DefaultWorkingDirectory)/**/target/*.war
       artifact: drop
 
 - stage: Deploy
