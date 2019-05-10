@@ -12,7 +12,7 @@ variables:
   azureSubscription: 'Java Demos 2'
   
   # Web app name
-  webAppName: 'SpringPetClinicTomcat'
+  webAppName: 'petclinic-mysql-devops'
 
   # Agent VM image name
   vmImageName: 'ubuntu-latest'
@@ -23,8 +23,8 @@ stages:
   jobs:
   - job: MavenPackageAndPublishArtifacts
     displayName: Maven Package and Publish Artifacts
-    pool: default
-      #vmImage: $(vmImageName)
+    pool: 
+      vmImage: $(vmImageName)
     
     steps:
     - task: Maven@3
@@ -36,7 +36,7 @@ stages:
       displayName: 'Copy Files to artifact staging directory'
       inputs:
         SourceFolder: '$(System.DefaultWorkingDirectory)'
-        Contents: '**/target/*.?ar'
+        Contents: '**/target/*.?(war|jar)'
         TargetFolder: $(Build.ArtifactStagingDirectory)
 
     - task: PublishPipelineArtifact@0
@@ -52,8 +52,8 @@ stages:
   - deployment: DeployLinuxWebApp
     displayName: Deploy Linux Web App
     environment: 'development'
-    pool: default
-      #vmImage: $(vmImageName)
+    pool: 
+      vmImage: $(vmImageName)
     strategy:
       runOnce:
         deploy:
@@ -64,4 +64,4 @@ stages:
               azureSubscription: $(azureSubscription)
               appType: webAppLinux
               appName: $(webAppName)
-              package: $(Pipeline.Workspace)/drop/target/*.war
+              package: $(Pipeline.Workspace)/drop/**/target/*.?(war|jar)'
