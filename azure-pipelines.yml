@@ -24,7 +24,7 @@ variables:
   REGION: westus2
 
   MYSQL_SERVER_NAME: petclinic-mysql-02
-  MYSQL_SERVER_FULL_NAME: ${MYSQL_SERVER_NAME}.mysql.database.azure.com
+  MYSQL_SERVER_FULL_NAME: $(MYSQL_SERVER_NAME).mysql.database.azure.com
   MYSQL_SERVER_ADMIN_LOGIN_NAME: e2e-java-admin@petclinic-mysql-02
   MYSQL_SERVER_ADMIN_PASSWORD: petclinic\$P
   MYSQL_DATABASE_NAME: petclinic
@@ -89,4 +89,4 @@ stages:
               appName: $(webAppName)
               package: $(Pipeline.Workspace)/drop/**/target/*.?(war|jar)
               startUpCommand: 'mvnw jetty:run-war -P MySQL'
-              configurationStrings: 'jdbc:mysql://$(MYSQL_SERVER_FULL_NAME)/$(MYSQL_DATABASE_NAME)?useSSL=true&requireSSL=false&autoReconnect=true&user=$(MYSQL_SERVER_ADMIN_LOGIN_NAME)&password=$(MYSQL_SERVER_ADMIN_PASSWORD)'
+              configurationStrings: '- petclinicmysql02 jdbc:mysql://$(MYSQL_SERVER_FULL_NAME)/$(MYSQL_DATABASE_NAME)?useSSL=true&requireSSL=false&autoReconnect=true&user=$(MYSQL_SERVER_ADMIN_LOGIN_NAME)&password=$(MYSQL_SERVER_ADMIN_PASSWORD)'
