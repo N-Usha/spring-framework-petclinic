@@ -11,11 +11,29 @@ variables:
   # Azure Resource Manager connection created during pipeline creation
   azureSubscription: 'Java Demos 2'
   
-  # Web app name
-  webAppName: 'petclinic-mysql-devops'
-
   # Agent VM image name
   vmImageName: 'ubuntu-latest'
+
+  # Tomcat Info
+  TOMCAT_HOME: /Users/selvasingh/apache-tomcat-8.5.29
+
+# Azure Environment
+  RESOURCEGROUP_NAME: e2e-java-tomcat-devops
+  WEBAPP_NAME: petclinic-mysql-devops
+  WEBAPP_PLAN_NAME: ${WEBAPP_NAME}-appservice-plan
+  REGION: westus2
+
+  MYSQL_SERVER_NAME: petclinic-mysql-02
+  MYSQL_SERVER_FULL_NAME: ${MYSQL_SERVER_NAME}.mysql.database.azure.com
+  MYSQL_SERVER_ADMIN_LOGIN_NAME: e2e-java-admin@petclinic-mysql-02
+  MYSQL_SERVER_ADMIN_PASSWORD: petclinic\$P
+  MYSQL_DATABASE_NAME: petclinic
+
+# Bind Secrets at Runtime
+  DOLLAR: \$
+
+# Web app name
+  webAppName: $(WEBAPP_NAME)
 
 stages:
 - stage: Build
@@ -31,6 +49,13 @@ stages:
       displayName: 'Maven Package'
       inputs:
         mavenPomFile: 'pom.xml'
+        mavenOptions: '-Xmx3072m'
+        javaHomeOption: 'JDKVersion'
+        jdkVersionOption: '1.11'
+        jdkArchitectureOption: 'x64'
+        publishJUnitResults: false
+        testResultsFiles: '**/TEST-*.xml'
+        goals: 'package'
     
     - task: CopyFiles@2
       displayName: 'Copy Files to artifact staging directory'
@@ -63,3 +88,5 @@ stages:
               appType: webAppLinux
               appName: $(webAppName)
               package: $(Pipeline.Workspace)/drop/**/target/*.?(war|jar)
+              startUpCommand: 'mvnw jetty:run-war -P MySQL'
+              configurationStrings: 'jdbc:mysql://MYSQL_SERVER_FULL_NAME/MYSQL_DATABASE_NAME?useSSL=true&requireSSL=false&autoReconnect=true&user=MYSQL_SERVER_ADMIN_LOGIN_NAME&password=MYSQL_SERVER_ADMIN_PASSWORD'
