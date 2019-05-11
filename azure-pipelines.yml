@@ -89,4 +89,4 @@ stages:
               appName: $(webAppName)
               package: $(Pipeline.Workspace)/drop/**/target/*.?(war|jar)
               startUpCommand: 'mvnw jetty:run-war -P MySQL'
-              configurationStrings: 'jdbc:mysql://MYSQL_SERVER_FULL_NAME/MYSQL_DATABASE_NAME?useSSL=true&requireSSL=false&autoReconnect=true&user=MYSQL_SERVER_ADMIN_LOGIN_NAME&password=MYSQL_SERVER_ADMIN_PASSWORD'
+              configurationStrings: 'jdbc:mysql://$(MYSQL_SERVER_FULL_NAME)/$(MYSQL_DATABASE_NAME)?useSSL=true&requireSSL=false&autoReconnect=true&user=$(MYSQL_SERVER_ADMIN_LOGIN_NAME)&password=$(MYSQL_SERVER_ADMIN_PASSWORD)'
