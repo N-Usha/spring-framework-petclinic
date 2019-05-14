@@ -89,4 +89,11 @@ stages:
               appName: $(webAppName)
               package: $(Pipeline.Workspace)/drop/**/target/*.?(war|jar)
               startUpCommand: 'mvnw jetty:run-war -P MySQL'
-              configurationStrings: '-petclinicmysql02 jdbc:mysql://$(MYSQL_SERVER_FULL_NAME)/$(MYSQL_DATABASE_NAME)?useSSL=true&requireSSL=false&autoReconnect=true&user=$(MYSQL_SERVER_ADMIN_LOGIN_NAME)&password=$(MYSQL_SERVER_ADMIN_PASSWORD)'
+              #configurationStrings: '-petclinicmysql02 jdbc:mysql://$(MYSQL_SERVER_FULL_NAME)/$(MYSQL_DATABASE_NAME)?useSSL=true&requireSSL=false&autoReconnect=true&user=$(MYSQL_SERVER_ADMIN_LOGIN_NAME)&password=$(MYSQL_SERVER_ADMIN_PASSWORD)'
+            
+          - task: AzureCLI@1
+            displayName: 'Set Connection string on Web App using Azure CLI'
+            inputs:
+              azureSubscription: $(azureSubscription)
+              scriptLocation: inlineScript
+              inlineScript: 'az webapp config connection-string set -g MyResourceGroup -n $(webAppName) -t mysql --settings mysql1=Server=$(MYSQL_SERVER_FULL_NAME);Database=$(MYSQL_DATABASE_NAME);Uid=$(MYSQL_SERVER_ADMIN_LOGIN_NAME);Pwd=$(MYSQL_SERVER_ADMIN_PASSWORD);'
