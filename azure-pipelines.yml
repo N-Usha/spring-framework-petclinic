@@ -96,11 +96,3 @@ stages:
               azureSubscription: $(azureSubscription)
               scriptLocation: inlineScript
               inlineScript: 'az webapp config connection-string set -g $(RESOURCEGROUP_NAME) -n $(webAppName) -t mysql --settings mysql1=Server=$(MYSQL_SERVER_FULL_NAME);Database=$(MYSQL_DATABASE_NAME);Uid=$(MYSQL_SERVER_ADMIN_LOGIN_NAME);Pwd=$(MYSQL_SERVER_ADMIN_PASSWORD);'
-          
-          # - task: AzurePowerShell@4
-          #   inputs:
-          #     azureSubscription: 'Java Demos 2'
-          #     ScriptType: 'InlineScript'
-          #     Inline: '# Assign Connection String to Connection String 
-          #       Set-AzWebApp -ConnectionStrings @{ petclinicmysql = @{ Type="mysql"; Value ="Server=tcp:$(MYSQL_SERVER_FULL_NAME);Database=$(MYSQL_DATABASE_NAME);User ID=$(MYSQL_SERVER_ADMIN_LOGIN_NAME);Password=$(MYSQL_SERVER_ADMIN_PASSWORD);Trusted_Connection=False;Encrypt=True;" } } -Name $(webAppName) -ResourceGroupName $(RESOURCEGROUP_NAME)'
-          #     azurePowerShellVersion: 'LatestVersion'
