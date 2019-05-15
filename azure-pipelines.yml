@@ -14,23 +14,6 @@ variables:
   # Agent VM image name
   vmImageName: 'ubuntu-latest'
 
-  # Tomcat Info
-  TOMCAT_HOME: /Users/selvasingh/apache-tomcat-8.5.29
-
-# Azure Environment
-  RESOURCEGROUP_NAME: e2e-java-tomcat-devops
-  WEBAPP_NAME: petclinic-mysql-devops
-  WEBAPP_PLAN_NAME: ${WEBAPP_NAME}-appservice-plan
-  REGION: westus2
-
-  MYSQL_SERVER_NAME: petclinic-mysql-02
-  MYSQL_SERVER_FULL_NAME: $(MYSQL_SERVER_NAME).mysql.database.azure.com
-  MYSQL_SERVER_ADMIN_LOGIN_NAME: e2e-java-admin@petclinic-mysql-02
-  MYSQL_DATABASE_NAME: petclinic
-
-# Bind Secrets at Runtime
-  DOLLAR: \$
-
 # Web app name
   webAppName: $(WEBAPP_NAME)
 
@@ -40,8 +23,8 @@ stages:
   jobs:
   - job: MavenPackageAndPublishArtifacts
     displayName: Maven Package and Publish Artifacts
-    pool: default
-      #vmImage: $(vmImageName)
+    pool: 
+      vmImage: $(vmImageName)
     
     steps:
     - task: Maven@3
@@ -74,8 +57,8 @@ stages:
   - deployment: DeployLinuxWebApp
     displayName: Deploy Linux Web App
     environment: 'development'
-    pool: default
-      #vmImage: $(vmImageName)
+    pool: 
+      vmImage: $(vmImageName)
     strategy:
       runOnce:
         deploy:
@@ -87,8 +70,6 @@ stages:
               appType: webAppLinux
               appName: $(webAppName)
               package: $(Pipeline.Workspace)/drop/**/target/*.?(war|jar)
-              #startUpCommand: 'java -jar -P MySQL'
-              #configurationStrings: '-petclinicmysql02 jdbc:mysql://$(MYSQL_SERVER_FULL_NAME)/$(MYSQL_DATABASE_NAME)?useSSL=true&requireSSL=false&autoReconnect=true&user=$(MYSQL_SERVER_ADMIN_LOGIN_NAME)&password=$(MYSQL_SERVER_ADMIN_PASSWORD)'
             
           - task: AzureCLI@1
             displayName: 'Set Connection string on Web App using Azure CLI'
