@@ -75,10 +75,11 @@ stages:
               appType: webAppLinux
               appName: $(webAppName)
               package: $(Pipeline.Workspace)/drop/**/target/*.?(war|jar)
+              appSettings: '-RESOURCEGROUP_NAME $(RESOURCEGROUP-NAME) -TOMCAT_HOME ;$(TOMCAT-HOME) -WEBAPP_NAME $(WEBAPP-NAME) -WEBAPP_PLAN_NAME $(WEBAPP-PLAN-NAME) -REGION $(REGION) -MYSQL_SERVER_NAME $(MYSQL-SERVER-NAME) -MYSQL_SERVER_FULL_NAME $(MYSQL-SERVER-FULL-NAME) -MYSQL_SERVER_ADMIN_LOGIN_NAME $(MYSQL-SERVER-ADMIN-LOGIN-NAME) -MYSQL_SERVER_ADMIN_PASSWORD $(MYSQL-SERVER_-ADMIN-PASSWORD) -MYSQL_DATABASE_NAME $(MYSQL-DATABASE-NAME) -DOLLAR $(DOLLAR)'
             
-          - task: AzureCLI@1
-            displayName: 'Set Connection string on Web App using Azure CLI'
-            inputs:
-              azureSubscription: $(azureSubscription)
-              scriptLocation: inlineScript
-              inlineScript: 'az webapp config connection-string set -g $(RESOURCEGROUP_NAME) -n $(webAppName) -t mysql --settings mysql1=Server=$(MYSQL_SERVER_FULL_NAME);Database=$(MYSQL_DATABASE_NAME);Uid=$(MYSQL_SERVER_ADMIN_LOGIN_NAME);Pwd=$(MYSQL_SERVER_ADMIN_PASSWORD);'
+          # - task: AzureCLI@1
+          #   displayName: 'Set Connection string on Web App using Azure CLI'
+          #   inputs:
+          #     azureSubscription: $(azureSubscription)
+          #     scriptLocation: inlineScript
+          #     inlineScript: 'az webapp config connection-string set -g $(RESOURCEGROUP_NAME) -n $(webAppName) -t mysql --settings mysql1=Server=$(MYSQL_SERVER_FULL_NAME);Database=$(MYSQL_DATABASE_NAME);Uid=$(MYSQL_SERVER_ADMIN_LOGIN_NAME);Pwd=$(MYSQL_SERVER_ADMIN_PASSWORD);'
