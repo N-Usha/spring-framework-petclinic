@@ -8,7 +8,7 @@ trigger:
 
 variables:
   # Secrets from a Variable group linked with an Azure key vault 
-- group: TestVG
+- group: JavaDemosKVSecrets
   
   # Azure Resource Manager connection created during pipeline creation
 - name: azureSubscription
