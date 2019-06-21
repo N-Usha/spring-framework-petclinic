@@ -7,15 +7,20 @@ trigger:
 - master
 
 variables:
-
+  # Secrets from a Variable group linked with an Azure key vault 
+- group: JavaDemoKVSecrets
+  
   # Azure Resource Manager connection created during pipeline creation
-  azureSubscription: 'Java Demos 2'
+- name: azureSubscription
+  value: 'Java Demos 2'
   
   # Agent VM image name
-  vmImageName: 'ubuntu-latest'
+- name: vmImageName
+  value: 'ubuntu-latest'
 
 # Web app name
-  webAppName: $(WEBAPP_NAME)
+- name: webAppName
+  value: $(WEBAPP-NAME)
 
 stages:
 - stage: Build
